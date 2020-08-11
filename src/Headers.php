@@ -294,6 +294,13 @@ class Headers implements Countable, Iterator
             foreach (array_keys($this->headersKeys, $key) as $index) {
                 $headers[] = $this->headers[$index];
             }
+
+            // fix CSP for Magento 2.3.4
+            if (count($headers) == 1 && $class == 'Zend\Http\Header\ContentSecurityPolicy') {
+                return $headers[0];
+            }
+            // end fix
+
             return new ArrayIterator($headers);
         }
 
